@@ -1,0 +1,37 @@
+{
+  "name": "@muxed/rpg-utils",
+  "version": "1.0.0",
+  "description": "Utilities for RPG players/masters",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juananmuxed/rpg-utils.git"
+  },
+  "homepage": "https://github.com/juananmuxed/rpg-utils#readme",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Juanan Mux <juanan.sm87@gmail.com> (https://github.com/juananmuxed)",
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/muxed"
+  },
+  "scripts": {
+    "start": "tsc -w",
+    "build": "tsc",
+    "test": "jest --config jestconfig.json"
+  },
+  "bugs": {
+    "url": "https://github.com/juananmuxed/rpg-utils/issues"
+  },
+  "keywords": [
+    "rpg",
+    "utilities"
+  ],
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "jest": "^27.0.6",
+    "ts-jest": "^27.0.3",
+    "ts-loader": "^9.2.3",
+    "typescript": "^4.3.4"
+  }
+}
