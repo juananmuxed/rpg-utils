@@ -18,7 +18,9 @@
   "scripts": {
     "start": "tsc -w",
     "build": "tsc",
-    "test": "jest --config jestconfig.json"
+    "test": "jest --config jestconfig.json",
+    "prepare" : "npm run build",
+    "prepublishOnly" : "npm test"
   },
   "bugs": {
     "url": "https://github.com/juananmuxed/rpg-utils/issues"
