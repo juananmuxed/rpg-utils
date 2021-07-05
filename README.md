@@ -14,7 +14,78 @@ $ npm install @muxed/rpg-utils
 
 Import the instaled Package
 ```ts
-import { Dice, Rolling } from '@muxed/rpg-utils'
+import { Dice, Rolling, RollUtils } from '@muxed/rpg-utils'
+```
+
+Three classes is charged for create rolls. The `Dice` is just for 1 dice. The `Rolling` is for a Pool of dice rolls and `RollUtils` is for common functions.
+
+### Dice
+This class is constructed with a `new Dice()`. We can pass a parameter to create this dice `new Dice(10,6)`. First parameter is the Faces of the dice (6 by default), and the second is and optional roll start (for example a 3 for restart other launch previously).
+
+This class have methods:
+```ts
+let dice = new Dice(10);
+
+dice.lauch() // Return a random number between 1 and 10 (the Faces)
+dice.asyncLaunch() // Return a Promise
+dice.asyncLaunch()
+.then(res => {
+  console.log(res);
+})
+.catch(err => {
+  console.log(err);
+});
+dice.modificateRoll(3); // Add modificators to the roll, we can pass a Min or Max to the modified roll
+dice.checkSuccess(8); // Check if the roll is Success up to or down to (the second param accept a true for check down) the number passed
+
+// We can pass a modification before
+dice.launch(-3,1) // This launch a 1d10 with a -3 to the result and a minimun of 1
+// Async work in the same way
+
+// We can access to the Roll and Faces and set it
+dice.faces = 20;
+dice.roll = 9;
+console.log(dice.faces); // 20
+console.log(dice.roll); // 9
+```
+
+### Rolling
+This class is constructed with a `new Rolling()`. We can pass a parameter to create this pool `new Rolling(20,10)`. First parameter is the Faces of the dice (6 by default), and the second is the number of dices (1 by default).
+
+This class have methods:
+```ts
+let pool = new Rolling(10,4);
+
+pool.rollDices() // Return an Array(4) of random number between 1 and 10 (the Faces)
+pool.rollDicesAsync() // Return a Promise
+pool.addNewRolls(3); // Add 3 new rolls to the pool
+pool.addNewRollsAsync(4); // Async add 3 new rolls to the pool
+pool.modifyRoll(3,1); // Add modificators to the roll by index, we can pass a Min or Max to the modified roll
+pool.modifyAllRolls(-4) // Add modificators to all rolls, we can pass a Min or Max to the modified roll
+pool.sumRolls() // Return the sum of all pool
+pool.checkAllSuccess(8); // Check if the rolls is Success up to or down to (the second param accept a true for check down) the number passed
+
+// We can pass a modification before
+pool.rollDices(-3,1) // This launch a 4d10 with a -3 to the result and a minimun of 1
+// Async work in the same way
+
+// We can access to the Rolls, Faces and number of Dices and set it
+pool.faces = 6;
+pool.rolls = [4, 4];
+pool.dices = 20;
+console.log(pool.faces); // 6
+console.log(pool.rolls); // [4, 4]
+console.log(pool.dices); // 20
+```
+
+### RollUtils
+This class is constructed with a `new RollUtils()`.
+
+This class have methods:
+```ts
+let utils = new RollUtils(10,4);
+
+utils.headOrTails() // Return 'HEAD' or 'TAILS'
 ```
 
 ## 🟢 Testing

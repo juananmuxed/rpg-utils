@@ -7,4 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/juananmuxed/dni-utils/compare/v1.0.0...HEAD
+## [v1.1.0] - 05-02-2021
+
+### Added
+- New RollUtils class to common utils.
+- Modification of rolls and sum added.
+
+### Changed
+- Promises in Async integrated in a TryCatch
+
+## [v1.0.0] - 01-07-2021
+
+### Added
+
+- First Release
+
+[Unreleased]: https://github.com/juananmuxed/dni-utils/compare/v1.1.0...HEAD
+[v1.1.0]: https://github.com/juananmuxed/rpg-utils/releases/tag/v1.1.0
+[v1.0.0]: https://github.com/juananmuxed/rpg-utils/releases/tag/v1.0.0

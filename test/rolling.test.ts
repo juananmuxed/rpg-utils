@@ -1,8 +1,8 @@
 import { Rolling } from "../src";
 
 const rolls = [
-    {dices: 1, faces: 6},
-    {dices: 10, faces: 20}
+    {dices: 1, faces: 6, min: 1, max: 6},
+    {dices: 10, faces: 20, min: 1, max: 20}
 ]
 
 describe('Checking roll length', () => {
