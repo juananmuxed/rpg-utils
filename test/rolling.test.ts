@@ -1,4 +1,4 @@
-import { Rolling } from "../src";
+import { RpgUtils } from "../src";
 
 const rolls = [
     {dices: 1, faces: 6, min: 1, max: 6},

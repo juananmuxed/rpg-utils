@@ -1,21 +1,20 @@
+import { Constants } from "../abstract/constants";
 import { Dice } from "../entities/dice";
 
 export class Rolling {
     private _faces:number;
-    private _dices:number;
-    private _rolls:Array<number>;
+    private _dices:Array<Dice>;
 
-    constructor(Faces:number = 6,Dices:number = 1) {
+    constructor(Faces:number = 6) {
         this._faces = Faces;
-        this._dices = Dices;
-        this._rolls = new Array()
+        this._dices = Array<Dice>();
     }
 
-    public get dices() : number {
+    public get dices() : Array<Dice> {
         return this._dices
     }
     
-    public set dices(v : number) {
+    public set dices(v : Array<Dice>) {
         this._dices = v;
     }
 
@@ -26,55 +25,119 @@ export class Rolling {
     public set faces(v : number) {
         this._faces = v;
     }
-    
-    public get rolls() : Array<number> {
-        return this._rolls
-    }
-    
-    public set rolls(v : Array<number>) {
-        this._rolls = v;
-    }
-        
+
     /*
-    * Add a roll to Pool of Rolls
+    * Return a random number
     * PRIVATE
     * 
-    * @param {number} roll Roll to add to Pool
+    * @returns {number} Random number between 1 and Faces
     */
-    private addRoll(roll:number) {
-        this.rolls.push(roll);
+    private roll():number {
+        return Math.floor((Math.random() * this.faces) + 1);
+    }
+
+    /*
+    * Push rolls in the pool
+    * PRIVATE
+    * 
+    * @param {number} rolls Number of new rolls
+    * @param Optional {number} faces Faces for this roll
+    */
+    private pushRolls(rolls:number = 1, faces:number = this.faces) {
+        const oldFaces = this.faces;
+        if(faces != this.faces) {
+            this.faces = faces;
+        }
+        for (let i = 0; i < rolls; i++) {
+            let roll = this.roll();
+            this.dices.push({
+                faces:this.faces,
+                roll: roll,
+                rollModified: roll,
+                min: 1,
+                max: this.faces
+            });
+        }
+        if(oldFaces != this.faces) {
+            this.faces = oldFaces;
+        }
+    }
+
+    /*
+    * Set property by key
+    * PRIVATE
+    * 
+    * @param {number} key Key of the property
+    * @param {number | boolean} value Value to the key
+    */
+    private setProp(key: string, value: number) {
+        this.dices.forEach((dice,index) => {
+            this.dices[index][key] = value;
+        });
+    }
+
+    /*
+    * Modify roll
+    * PRIVATE
+    * 
+    * @param {number} index Index to modify
+    * @param {number} mod Modification to roll
+    */
+    private modifyRoll(index: number, mod: number) {
+        this.dices[index].modificator = mod;
+        this.dices[index].rollModified = this.dices[index].roll + mod;
+        if(this.dices[index].max < this.dices[index].rollModified) this.dices[index].rollModified = this.dices[index].max;
+        if(this.dices[index].min > this.dices[index].rollModified) this.dices[index].rollModified = this.dices[index].min;
+    }
+
+    /*
+    * Map rolls by key
+    * PRIVATE
+    * 
+    * @param {number} key Number of new rolls
+    * @returns {Array<number | undefined | boolean>} Array of maped values by key
+    */
+    protected mapRolls(key: string): Array<number | undefined> {
+        return this.dices.map(dice => {
+            return dice[key];
+        });
+    }
+
+    /*
+    * Clean Pool of Dices
+    */
+    public cleanPoolOfDices() {
+        this.dices = Array<Dice>();
     }
         
     /*
     * Return an array of random rolls
     * 
-    * @returns {Array<number>} Array of random rolls
+    * @param {number} dices Number of dices to roll
+    * @param Optional {number} faces Faces for this roll
+    * @returns {Array<number | undefined | boolean>} Array of random rolls
     */
-    public rollDices(mod:number = 0, min:number | null = null, max:number | null = null) {
-        this.rolls = Array.from({length:this.dices}).fill(1).map(() => {
-            return new Dice(this.faces).launch(mod, min, max);
-        });
-        return this.rolls;
+    public rollDices(dices: number = 1, faces:number = this.faces): Array<number | undefined> {
+        this.cleanPoolOfDices();
+        this.pushRolls(dices,faces);
+        return this.mapRolls(Constants.ROL);
     }
         
     /*
     * Async return a Promise array of random rolls
     * 
-    * @returns {Array<number>} Array of random rolls
+    * @param {number} dices Number of dices to roll
+    * @param Optional {number} faces Faces for this roll
+    * @returns {Promise<Array<number | undefined | boolean> | Error>} Promise of array of random rolls
     */
-    public async rollDicesAsync(mod:number = 0, min:number | null = null, max:number | null = null) {
-        this.rolls = Array();
+    public async rollDicesAsync(dices:number = 1, faces:number = this.faces): Promise<Array<number | undefined> | Error> {
         return new Promise((resolve:Function, reject:Function) => {
             try {
-                for (let i = 0; i < this.dices; i++) {
-                    new Dice(this.faces).asyncLaunch(mod, min, max).then(res => {
-                        this.addRoll(res);
-                    })
-                }
-                if(this.rolls) resolve(this.rolls);
-                else reject(new Error('No rolls'));
+                const arrDices: Array<number | undefined | boolean> = this.rollDices(dices,faces);
+                if(arrDices) resolve(arrDices);
+                else reject(new Error(Constants.ERROR_NO_ROLL));
             } catch (error) {
-                reject(error);
+                reject(new Error(error));
             }
         })
     }
@@ -82,90 +145,60 @@ export class Rolling {
     /*
     * Add new rolls to pool and return an array of rolls
     * 
-    * @returns {Array<number>} Array of random rolls
     * @params {number} dices Number of new rolls
+    * @param Optional {number} faces Faces for this roll
+    * @returns {Array<number | undefined | boolean>} Array of random rolls
     */
-    public addNewRolls(dices: number = 1) {
-        for (let i = 0; i < dices; i++) {
-            this.addRoll(new Dice(this.faces).launch());
-        }
-        return this.rolls;
+    public addNewRolls(dices: number = 1, faces:number = this.faces): Array<number | undefined> {
+        this.pushRolls(dices,faces);
+        return this.mapRolls(Constants.ROL);
     }
-
-    /*
-    * Async add new rolls to pool and return an array of rolls
-    * 
-    * @returns {Array<number>} Array of random rolls
-    * @params {number} dices Number of new rolls
-    */
-    public async addNewRollsAsync(dices: number = 1) {
-        return new Promise((resolve:Function, reject:Function) => {
-            try {                
-                for (let i = 0; i < dices; i++) {
-                    new Dice(this.faces).asyncLaunch().then(res => {
-                        this.addRoll(res);
-                    })
-                }
-                if(this.rolls) resolve(this.rolls);
-                else reject(new Error('No rolls'));
-            } catch (error) {
-                reject(error);
-            }
-        })
-    }
-        
-    /*
-    * Modify roll from a specific position
-    * 
-    * @returns {Array<number>} Array of random rolls
-    * @params {number} index Position of the array
-    * @params {number} mod Modificator for the launch
-    * @params {number} min Min roll, default null
-    * @params {number} max Max roll, default null
-    */
-    public modifyRoll(index: number, mod:number, min:number | null = null, max:number | null = null):Array<number> {
-        const dice = new Dice(this.faces, this.rolls[index])
-        dice.modificateRoll(mod, min, max);
-        this.rolls[index] = dice.roll;
-        return this.rolls;
-    }
-        
-    /*
-    * Modify rolls
-    * 
-    * @returns {Array<number>} Array of random rolls
-    * @params {number} mod Modificator for the launch
-    * @params {number} min Min roll, default null
-    * @params {number} max Max roll, default null
-    */
-    public modifyAllRolls(mod:number, min:number | null = null, max:number | null = null):Array<number> {
-        this.rolls.forEach((v,i) => {
-            this.modifyRoll(i,mod,min,max)
-        });
-        return this.rolls;
-    }
-
+      
     /*
     * Sum rolls
     * 
     * @returns {number} Sum of all rolls in the pool
     */
-    public sumRolls():number {
-        return this.rolls.reduce((a,v) => {
-            return a + v;
+    public sumRolls(): number | Error {
+        return this.dices.length == 0 ? new Error(Constants.ERROR_NO_DICES) : this.dices
+        .map(dice => {
+            return dice.roll;
+        })
+        .reduce((prev, current) => {
+            return (!prev ? 0 : prev) + (!current ? 0 : current);
         });
+    }
+        
+    /*
+    * Modify rolls
+    * 
+    * @returns {Array<number | undefined | boolean> | Error} Array of random rolls modified
+    * @params {number} mod Modificator for the roll
+    */
+    public modifyRolls(mod:number):Array<number | undefined> | Error {
+        if(this.dices.length == 0) return new Error(Constants.ERROR_NO_DICES);
+        for (let i = 0; i < this.dices.length; i++) {
+            this.modifyRoll(i, mod);
+        }
+        return this.mapRolls(Constants.MODIFIED_ROL);
     }
 
     /*
-    * Check success
+    * Set Critical
     * 
-    * @returns {Array<Objects>} Array of all success
-    * @param {number} limit Limit to check
-    * @param {Boolean} low Above or under, default false
+    * @params {number} roll Critical roll to check
     */
-    public checkAllSuccess(limit: number, low: Boolean = false): Array<Object> {
-        return this.rolls.map(v => {
-            return new Dice(this.faces, v).checkSuccess(limit,low);
-        });
+    public setCritical(roll: number) {
+        this.setProp(Constants.CRITICAL, roll);
     }
+
+    /*
+    * Set Failure
+    * 
+    * @params {number} roll Critical roll to check
+    */
+    public setFailure(roll: number) {
+        this.setProp(Constants.FAILURE, roll);
+    }
+
 }

@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Constants for strings params
+- Unified Class RpgUtils
+
+### Changed
+- Refactored Classes and added Entities as `interfaces`
+
 ## [v1.1.0] - 05-02-2021
 
 ### Added

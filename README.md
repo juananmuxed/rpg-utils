@@ -14,78 +14,71 @@ $ npm install @muxed/rpg-utils
 
 Import the instaled Package
 ```ts
-import { Dice, Rolling, RollUtils } from '@muxed/rpg-utils'
+import { RpgUtils } from '@muxed/rpg-utils'
 ```
 
-Three classes is charged for create rolls. The `Dice` is just for 1 dice. The `Rolling` is for a Pool of dice rolls and `RollUtils` is for common functions.
-
-### Dice
-This class is constructed with a `new Dice()`. We can pass a parameter to create this dice `new Dice(10,6)`. First parameter is the Faces of the dice (6 by default), and the second is and optional roll start (for example a 3 for restart other launch previously).
+### 🎲 Rolling
+This class is constructed with a `new RpgUtils()`. We can pass a parameter to create this pool `new RpgUtils(20)`. The parameter is the Faces of the dice (6 by default).
 
 This class have methods:
 ```ts
-let dice = new Dice(10);
+let pool = new RpgUtils(10);
 
-dice.lauch() // Return a random number between 1 and 10 (the Faces)
-dice.asyncLaunch() // Return a Promise
-dice.asyncLaunch()
-.then(res => {
-  console.log(res);
-})
-.catch(err => {
-  console.log(err);
-});
-dice.modificateRoll(3); // Add modificators to the roll, we can pass a Min or Max to the modified roll
-dice.checkSuccess(8); // Check if the roll is Success up to or down to (the second param accept a true for check down) the number passed
+pool.cleanPoolOfDices(); // Clean a saved dices in the class
 
-// We can pass a modification before
-dice.launch(-3,1) // This launch a 1d10 with a -3 to the result and a minimun of 1
-// Async work in the same way
+pool.rollDices(4) // Return an Array(4) of random number between 1 and 10 (the Faces)
+pool.rollDicesAsync(6) // Return a Promise of Array<numbers>
 
-// We can access to the Roll and Faces and set it
-dice.faces = 20;
-dice.roll = 9;
-console.log(dice.faces); // 20
-console.log(dice.roll); // 9
-```
+pool.addNewRolls(3); // Add 3 new rolls to the pool 
+pool.addNewRolls(3,20); // Add 3 new rolls of 20 faces to the pool 
 
-### Rolling
-This class is constructed with a `new Rolling()`. We can pass a parameter to create this pool `new Rolling(20,10)`. First parameter is the Faces of the dice (6 by default), and the second is the number of dices (1 by default).
-
-This class have methods:
-```ts
-let pool = new Rolling(10,4);
-
-pool.rollDices() // Return an Array(4) of random number between 1 and 10 (the Faces)
-pool.rollDicesAsync() // Return a Promise
-pool.addNewRolls(3); // Add 3 new rolls to the pool
-pool.addNewRollsAsync(4); // Async add 3 new rolls to the pool
-pool.modifyRoll(3,1); // Add modificators to the roll by index, we can pass a Min or Max to the modified roll
-pool.modifyAllRolls(-4) // Add modificators to all rolls, we can pass a Min or Max to the modified roll
 pool.sumRolls() // Return the sum of all pool
-pool.checkAllSuccess(8); // Check if the rolls is Success up to or down to (the second param accept a true for check down) the number passed
 
-// We can pass a modification before
-pool.rollDices(-3,1) // This launch a 4d10 with a -3 to the result and a minimun of 1
-// Async work in the same way
+pool.modifyRoll(3); // Add modificators to the rolls
 
-// We can access to the Rolls, Faces and number of Dices and set it
+pool.setCritical(10); // Set the critical hit
+pool.setFailure(10); // Set the critical hit
+
+/* ADVANCED */ 
+pool.headOrTails(4); // Check a Coin flip (4 times)
+
+pool.checkSuccess(8); // Check if the rolls is Success
+pool.checkSuccess(4, 2, true) // Check if roll is success with 2 dices and down success
+
+// We can access to the Faces and number of Dices and set it
 pool.faces = 6;
-pool.rolls = [4, 4];
-pool.dices = 20;
 console.log(pool.faces); // 6
-console.log(pool.rolls); // [4, 4]
-console.log(pool.dices); // 20
+
+import { Dice } from '@muxed/rpg-utils'
+pool.dices = Array<Dice>;
+console.log(pool.dices); // Objects of the dices
 ```
 
-### RollUtils
-This class is constructed with a `new RollUtils()`.
-
-This class have methods:
+__Structure of a Dice__
 ```ts
-let utils = new RollUtils(10,4);
+{
+  faces: number,
+  roll: number,
+  rollModified: number,
+  modificator?: number,
+  critical?: number,
+  failure?:number,
+  min: number,
+  max: number
+}
+```
 
-utils.headOrTails() // Return 'HEAD' or 'TAILS'
+__Structure of a Response for Advanced rolls__
+```ts
+{
+  rolls: Array<number | string | undefined>,
+  modifiedRolls?: Array<number | string | undefined>,
+  success:string,
+  countSuccess: number,
+  countFail: number,
+  countCritical?: number,
+  countFailure?: number
+}
 ```
 
 ## 🟢 Testing
