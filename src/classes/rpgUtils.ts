@@ -63,16 +63,16 @@ export class RpgUtils extends Rolling {
    */
   public headOrTails(times: number = 1): ResponseRoll {
     const arrRoll = this.rollDices(times, 2).map((v) => {
-      return v != 1 ? Constants.TAILS : Constants.HEAD;
+      return v !== 1 ? Constants.TAILS : Constants.HEAD;
     });
     const countTails = arrRoll.filter(
-      (v) => v == Constants.TAILS
+      (v) => v === Constants.TAILS
     ).length;
     const countHead = arrRoll.filter(
-      (v) => v == Constants.HEAD
+      (v) => v === Constants.HEAD
     ).length;
     const success =
-      countTails == countHead
+      countTails === countHead
         ? Constants.TIE
         : countTails > countHead
         ? Constants.TAILS
@@ -92,16 +92,15 @@ export class RpgUtils extends Rolling {
    *
    * @param {number} success Roll limit to check
    * @param {number} dicesSuccess Number of rolls needed for success
-   * @param {boolean} Optional down Check up or down
+   * @param {boolean} down Check up or down
    * @returns {ResponseRoll} Array of rolls and counters
    */
   public checkSuccess(
     success: number,
     dicesSuccess: number = 1,
     down: boolean = false
-  ): ResponseRoll | Error {
-    if (this.dices.length == 0)
-      return new Error(Constants.ERROR_NO_DICES);
+  ): ResponseRoll {
+    if (this.dices.length == 0) this.rollDices();
     const response: ResponseRoll = {
       rolls: this.mapRolls(Constants.ROL),
       modifiedRolls: this.mapRolls(Constants.MODIFIED_ROL),
