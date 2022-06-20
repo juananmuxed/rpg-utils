@@ -89,6 +89,7 @@ $ npm install
 Run the tests
 ```shell
 $ npm test
+$ npm run coverage
 ```
 
 ## 🍰 Contributing

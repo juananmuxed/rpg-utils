@@ -18,7 +18,8 @@
   "scripts": {
     "start": "tsc -w",
     "build": "tsc",
-    "test": "jest --config jestconfig.json",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
     "prepare": "npm run build",
     "prepublishOnly": "npm test",
     "preversion": "npm test"
@@ -31,10 +32,9 @@
     "utilities"
   ],
   "devDependencies": {
-    "@types/jest": "^26.0.23",
-    "jest": "^27.0.6",
-    "ts-jest": "^27.0.3",
+    "c8": "^7.11.3",
     "ts-loader": "^9.2.3",
-    "typescript": "^4.3.4"
+    "typescript": "^4.3.4",
+    "vitest": "^0.15.1"
   }
 }
