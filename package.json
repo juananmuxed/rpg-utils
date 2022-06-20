@@ -18,11 +18,12 @@
   "scripts": {
     "start": "tsc -w",
     "build": "tsc",
-    "test": "vitest",
+    "test:watch": "vitest",
+    "test": "vitest run",
     "coverage": "vitest run --coverage",
     "prepare": "npm run build",
     "prepublishOnly": "npm test",
-    "preversion": "npm test"
+    "preversion": "npm run test:watch"
   },
   "bugs": {
     "url": "https://github.com/juananmuxed/rpg-utils/issues"
