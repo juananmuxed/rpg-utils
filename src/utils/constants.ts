@@ -6,6 +6,7 @@ export abstract class Constants {
     static readonly NO: string = 'NO';
     static readonly ERROR_NO_ROLL: string = 'No rolls';
     static readonly ERROR_NO_DICES: string = 'No dices rolled, use rollDices()';
+    static readonly ERROR_UNKNOW: string = 'Unknow error, see console';
     static readonly CRITICAL: string = 'critical';
     static readonly FAILURE: string = 'failure';
     static readonly ROL: string = 'roll';
