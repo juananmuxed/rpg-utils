@@ -23,7 +23,7 @@
     "coverage": "vitest run --coverage",
     "prepare": "npm run build",
     "prepublishOnly": "npm test",
-    "preversion": "npm run test:watch"
+    "preversion": "npm run test"
   },
   "bugs": {
     "url": "https://github.com/juananmuxed/rpg-utils/issues"
