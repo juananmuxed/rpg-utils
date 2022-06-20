@@ -34,10 +34,10 @@ pool.addNewRolls(3,20); // Add 3 new rolls of 20 faces to the pool
 
 pool.sumRolls() // Return the sum of all pool
 
-pool.modifyRoll(3); // Add modificators to the rolls
+pool.modifyRoll(3); // Add modifications to the rolls
 
 pool.setCritical(10); // Set the critical hit
-pool.setFailure(10); // Set the critical hit
+pool.setFailure(10); // Set the failure hit
 
 /* ADVANCED */ 
 pool.headOrTails(4); // Check a Coin flip (4 times)
@@ -49,9 +49,10 @@ pool.checkSuccess(4, 2, true) // Check if roll is success with 2 dices and down 
 pool.faces = 6;
 console.log(pool.faces); // 6
 
+// TS support interfaces Dice and ResponseRoll
+
 import { Dice } from '@muxed/rpg-utils'
-pool.dices = Array<Dice>;
-console.log(pool.dices); // Objects of the dices
+const dices: Array<Dice> = [];
 ```
 
 __Structure of a Dice__
