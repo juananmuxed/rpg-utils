@@ -1,4 +1,3 @@
-import { ResponseRoll } from "./../dist/entities/compexRoll.d";
 import { RpgUtils } from "../src";
 import { describe, expect, it } from "vitest";
 import { Constants } from "../src/utils/constants";

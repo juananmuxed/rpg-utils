@@ -8,6 +8,8 @@ src
 webpack.config.js
 tsconfig.json
 test
+coverage
+.github
 
 ### macOS ###
 # General
