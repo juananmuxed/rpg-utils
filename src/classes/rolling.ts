@@ -179,11 +179,11 @@ export class Rolling {
   /**
    * Modify rolls
    *
-   * @returns {Array<number | undefined>} Array of random rolls modified
    * @params {number} mod Modification for the roll
+   * @returns {Array<number | undefined>} Array of random rolls modified or empty array if not set
    */
   public modifyRolls(mod: number): Array<number | undefined> {
-    if (this.dices.length == 0) return [undefined];
+    if (this.dices.length == 0) return [];
     for (let i = 0; i < this.dices.length; i++) {
       this.modifyRoll(i, mod);
     }
