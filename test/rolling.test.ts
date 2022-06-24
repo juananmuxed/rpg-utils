@@ -61,9 +61,7 @@ describe("Add rolls", () => {
 describe("Sum rolls", () => {
   it("Check sum rolls", () => {
     const roll = new RpgUtils();
-    expect(roll.sumRolls()?.toString()).toBe(
-      new Error(Constants.ERROR_NO_DICES).toString()
-    );
+    expect(roll.sumRolls()).toBe(undefined);
     const DICES = 20;
     const FACES = 10;
 
@@ -77,9 +75,7 @@ describe("Sum rolls", () => {
 describe("Modify rolls", () => {
   it("Check modify rolls", () => {
     const roll = new RpgUtils();
-    expect(roll.modifyRolls(2).toString()).toBe(
-      new Error(Constants.ERROR_NO_DICES).toString()
-    );
+    expect(roll.modifyRolls(2)).toStrictEqual([]);
 
     const MODIFICATION = 2;
     const DICES = 20;
