@@ -5,6 +5,7 @@ import { Rolling } from "./rolling";
 export class RpgUtils extends Rolling {
   /**
    * Check down or up
+   * PRIVATE
    *
    * @param {boolean} down Is Down
    * @param {number} roll Roll
@@ -21,6 +22,7 @@ export class RpgUtils extends Rolling {
 
   /**
    * Modified or not
+   * PRIVATE
    *
    * @param {number} roll Roll
    * @param {number} check Modified roll
@@ -35,6 +37,7 @@ export class RpgUtils extends Rolling {
 
   /**
    * Reduce custom for rolls
+   * PRIVATE
    *
    * @param {boolean} down Is down of up success
    * @param {number} success Success limit

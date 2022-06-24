@@ -43,7 +43,10 @@ export class Rolling {
    * @param {number} rolls Number of new rolls
    * @param {number} faces Faces for this roll
    */
-  private pushRolls(rolls: number = 1, faces: number = this.faces) {
+  private pushRolls(
+    rolls: number = 1,
+    faces: number = this.faces
+  ): void {
     const oldFaces = this.faces;
     if (faces != this.faces) {
       this.faces = faces;
@@ -70,7 +73,7 @@ export class Rolling {
    * @param {number} key Key of the property
    * @param {number | boolean} value Value to the key
    */
-  private setProp(key: string, value: number) {
+  private setProp(key: string, value: number): void {
     this.dices.forEach((dice, index) => {
       this.dices[index][key] = value;
     });
@@ -83,7 +86,7 @@ export class Rolling {
    * @param {number} index Index to modify
    * @param {number} mod Modification to roll
    */
-  private modifyRoll(index: number, mod: number) {
+  private modifyRoll(index: number, mod: number): void {
     this.dices[index].modification = mod;
     this.dices[index].rollModified = this.dices[index].roll + mod;
     if (this.dices[index].max < this.dices[index].rollModified)
@@ -97,7 +100,7 @@ export class Rolling {
    * PRIVATE
    *
    * @param {number} key Number of new rolls
-   * @returns {Array<number | undefined | boolean>} Array of mapped values by key
+   * @returns {Array<number | undefined >} Array of mapped values by key
    */
   protected mapRolls(key: string): Array<number | undefined> {
     return this.dices.map((dice) => {
@@ -117,7 +120,7 @@ export class Rolling {
    *
    * @param {number} dices Number of dices to roll
    * @param {number} faces Faces for this roll
-   * @returns {Array<number | undefined | boolean>} Array of random rolls
+   * @returns {Array<number | undefined>} Array of random rolls
    **/
   public rollDices(
     dices: number = 1,
@@ -133,12 +136,12 @@ export class Rolling {
    *
    * @param {number} dices Number of dices to roll
    * @param {number} faces Faces for this roll
-   * @returns {Promise<Array<number | undefined | boolean> | Error>} Promise of array of random rolls
+   * @returns {Promise<Array<number | undefined>>} Promise of array of random rolls
    */
   public async rollDicesAsync(
     dices: number = 1,
     faces: number = this.faces
-  ): Promise<Array<number | undefined> | Error> {
+  ): Promise<Array<number | undefined>> {
     return new Promise((resolve: Function) => {
       resolve(this.rollDices(dices, faces));
     });
@@ -149,7 +152,7 @@ export class Rolling {
    *
    * @params {number} dices Number of new rolls
    * @param {number} faces Faces for this roll
-   * @returns {Array<number | undefined | boolean>} Array of random rolls
+   * @returns {Array<number | undefined>} Array of random rolls
    */
   public addNewRolls(
     dices: number = 1,
@@ -164,9 +167,8 @@ export class Rolling {
    *
    * @returns {number} Sum of all rolls in the pool
    */
-  public sumRolls(): number | Error | undefined {
-    if (this.dices.length == 0)
-      return new Error(Constants.ERROR_NO_DICES);
+  public sumRolls(): number | undefined {
+    if (this.dices.length == 0) return undefined;
 
     const mapped = this.mapRolls(Constants.ROL);
     return mapped.reduce((prev, current) => {
@@ -177,12 +179,11 @@ export class Rolling {
   /**
    * Modify rolls
    *
-   * @returns {Array<number | undefined | boolean> | Error} Array of random rolls modified
+   * @returns {Array<number | undefined>} Array of random rolls modified
    * @params {number} mod Modification for the roll
    */
-  public modifyRolls(mod: number): Array<number | undefined> | Error {
-    if (this.dices.length == 0)
-      return new Error(Constants.ERROR_NO_DICES);
+  public modifyRolls(mod: number): Array<number | undefined> {
+    if (this.dices.length == 0) return [undefined];
     for (let i = 0; i < this.dices.length; i++) {
       this.modifyRoll(i, mod);
     }
