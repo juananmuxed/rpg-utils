@@ -1,7 +1,7 @@
 # ⚔️ RPG Utils
 __Utilities to RPG Masters/Users__
 
-[![npm (scoped)](https://img.shields.io/npm/v/@muxed/rpg-utils.svg?label=NPM)](https://www.npmjs.com/package/@muxed/rpg-utils) [![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@muxed/rpg-utils?label=Size)](https://www.npmjs.com/package/@muxed/rpg-utils) [![License](https://img.shields.io/github/license/juananmuxed/rpg-utils?label=License)](LICENSE) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/juananmuxed/rpg-utils/Publish%20to%20NPM?label=Build&logo=npm)
+[![npm (scoped)](https://img.shields.io/npm/v/@muxed/rpg-utils.svg?label=NPM)](https://www.npmjs.com/package/@muxed/rpg-utils) [![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@muxed/rpg-utils?label=Size)](https://www.npmjs.com/package/@muxed/rpg-utils) [![License](https://img.shields.io/github/license/juananmuxed/rpg-utils?label=License)](LICENSE) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/juananmuxed/rpg-utils/publish.yml?label=Workflow)
 
 [![Discord](https://img.shields.io/discord/324463341819133953?color=purple&label=Discord&logo=discord)](https://discord.gg/88rzwfU) 
 
